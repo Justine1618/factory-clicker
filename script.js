@@ -5,13 +5,17 @@
 // All values are copied from stored values to the DOM
 // Listen for button clicks, assign producers as required
 
+
+
+// CREATE RESOURCES
+// This will eventually be read as a JSON file for content creation, hard coding for now
 function SetupMineableResources() {
     let mineableResourceList = [];
 
     let coal = {
         Availible: 5000000,
         AvailibleDom: document.querySelectorAll('.coalAvailible'),
-        MinersAssigned: 0,
+        MinersAssigned: 1,
         MinersAssignedDom: document.querySelectorAll('.coalMinersAssigned'),
         BaseProdRate: 1,
         BaseProdRateDom: document.querySelectorAll('.coalBaseProdRate'),
@@ -50,7 +54,7 @@ function SetupSmeltableResources() {
     let ironBar = {
         //Requried resources will need some chaning
         Required: {
-            IronOreCost: 1, 
+            IronOreCost: 1,
             IronOreCostDom: document.querySelectorAll('.ironBarIronOreCost'),
             CoalCost: 1,
             CoalCostDom: document.querySelectorAll('.ironBarCoalCost')
@@ -122,52 +126,111 @@ function SetupCraftableResources() {
     return craftableResourceList;
 }
 
+// UPDATE RESOURCES
+
+// Mineables will need an update to allow for mining efficiency and mining time
+function UpdateMineable(mineable) {
+    if (mineable.Availible > 0) {
+        mineable.Availible -= 1;
+        mineable.CurProdRate = mineable.MinersAssigned * mineable.BaseProdRate;
+        mineable.Stored += mineable.CurProdRate;
+    }
+}
+
+// Resources are currently not using up required resources
+// Will be done after Requirements fix
+
+function UpdateSmeltable(smeltable) {
+    smeltable.CurProdRate = smeltable.SmeltersAssigned * smeltable.BaseProdRate;
+    smeltable.Stored += smeltable.CurProdRate;
+}
+
+function UpdateCraftable(craftable) {
+    craftable.CurProdRate = craftable.CraftersAssigned * craftable.BaseProdRate;
+    craftable.Stored += craftable.CurProdRate;
+}
+
+function UpdateResources(state) {
+    state[0].forEach(UpdateMineable);
+    state[1].forEach(UpdateSmeltable);
+    state[2].forEach(UpdateCraftable);
+}
+
 function UpdateDisplay(mineableResourceList, smeltableResourceList, craftableResourceList) {
+    // This was just the first way I thought of to update display, can be upgraded for readabiliity
+    // and reuseablility
     mineableResourceList.forEach((curResource) => {
         curResource.AvailibleDom.forEach((curDom) => {
-            curDom.textContent = curResource.Availible.toString()});
-        curResource.MinersAssignedDom.forEach((curDom) => {
-            curDom.textContent = curResource.MinersAssigned.toString()});
-        curResource.BaseProdRateDom.forEach((curDom) => {
-            curDom.textContent = curResource.BaseProdRate.toString()});
-        curResource.CurProdRateDom.forEach((curDom) => {
-            curDom.textContent = curResource.CurProdRate.toString()});
-        curResource.StoredDom.forEach((curDom) => {
-            curDom.textContent = curResource.Stored.toString()});
+            curDom.textContent = curResource.Availible.toString()
         });
+        curResource.MinersAssignedDom.forEach((curDom) => {
+            curDom.textContent = curResource.MinersAssigned.toString()
+        });
+        curResource.BaseProdRateDom.forEach((curDom) => {
+            curDom.textContent = curResource.BaseProdRate.toString()
+        });
+        curResource.CurProdRateDom.forEach((curDom) => {
+            curDom.textContent = curResource.CurProdRate.toString()
+        });
+        curResource.StoredDom.forEach((curDom) => {
+            curDom.textContent = curResource.Stored.toString()
+        });
+    });
     //Displaying required resources will take some changing
     smeltableResourceList.forEach((curResource) => {
         curResource.Required.IronOreCostDom.forEach((curDom) => {
-            curDom.textContent = curResource.Required.IronOreCost.toString()});
+            curDom.textContent = curResource.Required.IronOreCost.toString()
+        });
         curResource.Required.CoalCostDom.forEach((curDom) => {
-            curDom.textContent = curResource.Required.CoalCost.toString()});
-            
+            curDom.textContent = curResource.Required.CoalCost.toString()
+        });
+
         curResource.SmeltersAssignedDom.forEach((curDom) => {
-            curDom.textContent = curResource.SmeltersAssigned.toString()});
+            curDom.textContent = curResource.SmeltersAssigned.toString()
+        });
         curResource.BaseProdRateDom.forEach((curDom) => {
-            curDom.textContent = curResource.BaseProdRate.toString()});
+            curDom.textContent = curResource.BaseProdRate.toString()
+        });
         curResource.CurProdRateDom.forEach((curDom) => {
-            curDom.textContent = curResource.CurProdRate.toString()});
+            curDom.textContent = curResource.CurProdRate.toString()
+        });
         curResource.StoredDom.forEach((curDom) => {
-            curDom.textContent = curResource.Stored.toString()});
-        });  
+            curDom.textContent = curResource.Stored.toString()
+        });
+    });
 
     craftableResourceList.forEach((curResource) => {
         curResource.Required.IronBarCostDom.forEach((curDom) => {
-            curDom.textContent = curResource.Required.IronBarCost.toString()});
-            
+            curDom.textContent = curResource.Required.IronBarCost.toString()
+        });
+
         curResource.CraftersAssignedDom.forEach((curDom) => {
-            curDom.textContent = curResource.CraftersAssigned.toString()});
+            curDom.textContent = curResource.CraftersAssigned.toString()
+        });
         curResource.BaseProdRateDom.forEach((curDom) => {
-            curDom.textContent = curResource.BaseProdRate.toString()});
+            curDom.textContent = curResource.BaseProdRate.toString()
+        });
         curResource.CurProdRateDom.forEach((curDom) => {
-            curDom.textContent = curResource.CurProdRate.toString()});
+            curDom.textContent = curResource.CurProdRate.toString()
+        });
         curResource.StoredDom.forEach((curDom) => {
-            curDom.textContent = curResource.Stored.toString()});
+            curDom.textContent = curResource.Stored.toString()
+        });
     });
+}
+
+function tick(state) {
+    let now = new Date();
+    console.log(`Ticking: ${now.getHours()} : ${now.getMinutes()} : ${now.getSeconds()}`);
+    UpdateResources(state);
+    UpdateDisplay(state[0], state[1], state[2]);
 }
 
 let mineableResourceList = SetupMineableResources();
 let smeltableResourceList = SetupSmeltableResources();
 let craftableResourceList = SetupCraftableResources();
-UpdateDisplay(mineableResourceList, smeltableResourceList, craftableResourceList);
+let state = [mineableResourceList, smeltableResourceList, craftableResourceList];
+// Show initial setup
+UpdateDisplay(state[0], state[1], state[2]);
+
+let interval = setTimeout(tick(state), 1000);
