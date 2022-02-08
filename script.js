@@ -209,7 +209,7 @@ function SetupButtonListeners(doms) {
     });
     doms.smelterPlus.addEventListener('click', event => {
         if (state[2].crafter.Stored > 0) {
-            state[2].crafter.Stored --;
+            state[2].crafter.Stored--;
             state[2].smelter.CraftersAssigned++;
         }
         UpdateDisplay(state);
@@ -252,13 +252,20 @@ function UpdateMineable(mineable) {
 // Will be done after Requirements fix
 
 function UpdateSmeltable(smeltable) {
-    smeltable.CurProdRate = smeltable.SmeltersAssigned * smeltable.BaseProdRate;
-    smeltable.Stored += smeltable.CurProdRate;
+    if (state[0].coal.Stored > smeltable.CurProdRate && state[0].ironOre.Stored > smeltable.CurProdRate) {
+        state[0].coal.Stored -= smeltable.CurProdRate;
+        state[0].ironOre.Stored -= smeltable.CurProdRate;
+        smeltable.CurProdRate = smeltable.SmeltersAssigned * smeltable.BaseProdRate;
+        smeltable.Stored += smeltable.CurProdRate;
+    }
 }
 
 function UpdateCraftable(craftable) {
-    craftable.CurProdRate = craftable.CraftersAssigned * craftable.BaseProdRate;
-    craftable.Stored += craftable.CurProdRate;
+    if (state[1].ironBar.Stored > craftable.CurProdRate) {
+        state[1].ironBar.Stored -= craftable.CurProdRate;
+        craftable.CurProdRate = craftable.CraftersAssigned * craftable.BaseProdRate;
+        craftable.Stored += craftable.CurProdRate;
+    }
 }
 
 function UpdateResources(state) {
