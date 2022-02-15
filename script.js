@@ -345,22 +345,7 @@ function tick(state) {
 }
 
 
-function createCard(resource) {
-    const div = document.createElement('div');
-    div.classList.add('card');
-    const header = document.createElement('h2');
-    header.textContent = resource.name;
-    div.appendChild(header);
-    let p = document.createElement('p');
-    // Skipping availible resources for now
-    p.textContent = 'Miners Assigned: ';
-    let s = document.createElement('span');
-    s.classList.add(`${resource.name}ProducersAssigned`);
-    s.textContent = resource.ProducersAssigned;
-    p.appendChild(s);
-    div.appendChild(p);
-    return div;
-}
+
 
 let mineableResourceList = SetupMineableResources();
 let smeltableResourceList = SetupSmeltableResources();
@@ -368,8 +353,6 @@ let craftableResourceList = SetupCraftableResources();
 SetupButtons();
 
 
-const mineable = document.querySelector('.mineable');
-mineable.appendChild(createCard(jsonList))
 
 
 let state = [mineableResourceList, smeltableResourceList, craftableResourceList];
