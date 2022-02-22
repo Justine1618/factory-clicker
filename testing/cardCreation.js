@@ -1,121 +1,3 @@
-let mineableList = {
-    coal: {
-        name: 'Coal',
-        cardDom: null,
-        available: 1000000,
-        availableDom: null,
-        burnerMiners: 0,
-        burnerMinersDom: null,
-        burnerMinersResearchDom: null,
-        elecMiners: 0,
-        elecMinersDom: null,
-        elecMinersResearchDom: null,
-        baseProdRate: 1.0,
-        baseProdRateDom: null,
-        curProdRate: 1.0,
-        curProdRateDom: null,
-        stored: 0,
-        storedDom: null,
-    },
-
-    ironOre: {
-        name: 'Iron Ore',
-        cardDom: null,
-        available: 1000000,
-        availableDom: null,
-        burnerMiners: 0,
-        burnerMinersDom: null,
-        burnerMinersResearchDom: null,
-        elecMiners: 0,
-        elecMinersDom: null,
-        elecMinersResearchDom: null,
-        baseProdRate: 1.0,
-        baseProdRateDom: null,
-        curProdRate: 0,
-        curProdrateDom: null,
-        stored: 0,
-        storedDom: null,
-    }
-}
-
-let smeltableList = {
-    ironBar: {
-        name: 'Iron Bar',
-        cardDom: null,
-        required: [mineableList.ironOre, 1.0],
-        requiredDom: [null],
-        stoneFurnaces: 0,
-        stoneFurnacesDom: null,
-        stoneFurnacesResearchDom: null,
-        steelFurnaces: 0,
-        steelFurnacesDom: null,
-        steelFurnacesResearchDom: null,
-        elecFurnaces: 0,
-        elecFurnacesDom: null,
-        elecFurnacesResearchDom: null,
-        baseProdRate: 1.0,
-        baseProdRateDom: null,
-        curProdRate: 0,
-        curProdRateDom: null,
-        stored: 0,
-        storedDom: null,
-    },
-}
-
-let craftableList = {
-    burnerMiner: {
-        name: 'Burner Miner',
-        cardDom: null,
-        required: [smeltableList.ironBar, 10],
-        requiredDom: null,
-        burnerCrafters: 0,
-        burnerCraftersDom: null,
-        burnerCraftersResearchDom: null,
-        elecCrafters: 0,
-        elecCraftersDom: null,
-        elecCraftersResearchDom: null,
-        advCrafters: 0,
-        advCraftersDom: null,
-        advCraftersResearchDom: null,
-        baseProdRate: 1.0,
-        baseProdRateDom: null,
-        curProdRate: 0,
-        curProdRateDom: null,
-        stored: 0,
-        storedDom: null,
-    },
-    elecMiner: {
-        name: 'Electric Miner',
-        stored: 0,
-    },
-    stoneFurnace: {
-        name: 'Stone Furnace',
-        stored: 0,
-    },
-    steelFurnace: {
-        name: 'Steel Furnace',
-        stored: 0,
-    },
-    elecFurnace: {
-        name: 'Electric Furnace',
-        stored: 0,
-    },
-    burnerCrafter: {
-        name: 'Burner Crafter',
-        stored: 0,
-    },
-    elecCrafter: {
-        name: 'Electric Crafter',
-        stored: 0,
-    },
-    advCrafter: {
-        name: 'AdvancedCrafter',
-        stored: 0,
-    },
-}
-
-let mineable = mineableList.coal;
-
 function createMineableCard(mineable) {
     const card = document.createElement('div');
     card.classList.add('card');
@@ -145,7 +27,7 @@ function createMineableCard(mineable) {
             mineable.burnerMiners--;
             craftableList.burnerMiner.stored++;
             //}
-            //UpdateDisplay();
+            UpdateDisplay();
     });
     pBurnerMiners.appendChild(subBurnerMiners);
     const plusBurnerMiners = document.createElement('button');
@@ -156,7 +38,7 @@ function createMineableCard(mineable) {
             craftableList.burnerMiner.stored--;
             mineable.burnerMiners++;
             //}
-            //UpdateDisplay();
+            UpdateDisplay();
     });
     mineable.burnerMinersResearchDom = pBurnerMiners;
     pBurnerMiners.appendChild(plusBurnerMiners);
@@ -176,7 +58,7 @@ function createMineableCard(mineable) {
             mineable.elecMiners--;
             craftableList.elecMiner.stored++;
             //}
-            //UpdateDisplay();
+            UpdateDisplay();
     });
     pElecMiners.appendChild(subElecMiners);
     const plusElecMiners = document.createElement('button');
@@ -187,7 +69,7 @@ function createMineableCard(mineable) {
             craftableList.elecMiner.stored--;
             mineable.elecMiners++;
             //}
-            //UpdateDisplay();
+            UpdateDisplay();
     });
     mineable.elecMinersResearchDom = pElecMiners;
     pElecMiners.appendChild(plusElecMiners);
@@ -220,7 +102,7 @@ function createMineableCard(mineable) {
     pStored.appendChild(sStored);
     card.appendChild(pStored);
 
-    return card;
+    mineable.cardDom = card;
 }
 
 function createSmeltableCard(smeltable) {
@@ -241,7 +123,11 @@ function createSmeltableCard(smeltable) {
         pRequired.textContent = `${smeltable.required[i].name}: `;
         let sRequired = document.createElement('span');
         sRequired.textContent = smeltable.required[i+1]
+        let sRequiredAvailable = document.createElement('span');
+        sRequiredAvailable.textContent = ` (${smeltable.required[i].stored} Available)`;
+        smeltable.requiredDom[i/2] = sRequiredAvailable;
         pRequired.appendChild(sRequired);
+        pRequired.appendChild(sRequiredAvailable);
         divRequired.appendChild(pRequired);
     }
     card.appendChild(divRequired);
@@ -259,6 +145,7 @@ function createSmeltableCard(smeltable) {
             smeltable.stoneFurnaces--;
             craftableList.stoneFurnace.stored++;
         //}
+            UpdateDisplay();
     });
     pStoneFurnaces.appendChild(subStoneFurnaces);
     const plusStoneFurnaces = document.createElement('button');
@@ -268,6 +155,7 @@ function createSmeltableCard(smeltable) {
             craftableList.stoneFurnace.stored--;
             smeltable.stoneFurnaces++;
         //}
+            UpdateDisplay();
     });
     pStoneFurnaces.appendChild(plusStoneFurnaces);
     card.appendChild(pStoneFurnaces);
@@ -285,6 +173,7 @@ function createSmeltableCard(smeltable) {
             smeltable.steelFurnaces--;
             craftableList.steelFurnace.stored++;
         //}
+            UpdateDisplay();
     });
     pSteelFurnaces.appendChild(subSteelFurnaces);
     const plusSteelFurnaces = document.createElement('button');
@@ -294,6 +183,7 @@ function createSmeltableCard(smeltable) {
             craftableList.steelFurnace.stored--;
             smeltable.steelFurnaces++;
         //}
+        UpdateDisplay();
     });
     pSteelFurnaces.appendChild(plusSteelFurnaces);
     card.appendChild(pSteelFurnaces);
@@ -311,6 +201,7 @@ function createSmeltableCard(smeltable) {
             smeltable.elecFurnaces--;
             craftableList.elecFurnace.stored++;
         //}
+        UpdateDisplay();
     });
     pElecFurnaces.appendChild(subElecFurnaces);
     const plusElecFurnaces = document.createElement('button');
@@ -320,6 +211,7 @@ function createSmeltableCard(smeltable) {
             craftableList.elecFurnace.stored--;
             smeltable.elecFurnaces++;
         //}
+        UpdateDisplay();
     });
     pElecFurnaces.appendChild(plusElecFurnaces);
     card.appendChild(pElecFurnaces);
@@ -351,10 +243,7 @@ function createSmeltableCard(smeltable) {
     pStored.appendChild(sStored);
     card.appendChild(pStored);
 
-
-
-    return card;
-    
+    smeltable.cardDom = card;    
 }
 
 function createCraftableCard(craftable) {
@@ -375,7 +264,11 @@ function createCraftableCard(craftable) {
         pRequired.textContent = `${craftable.required[i].name}: `;
         let sRequired = document.createElement('span');
         sRequired.textContent = craftable.required[i+1]
+        let sRequiredAvailable = document.createElement('span');
+        sRequiredAvailable.textContent = ` (${craftable.required[i].stored} Available)`;
+
         pRequired.appendChild(sRequired);
+        pRequired.appendChild(sRequiredAvailable);
         divRequired.appendChild(pRequired);
     }
     card.appendChild(divRequired);
@@ -384,7 +277,7 @@ function createCraftableCard(craftable) {
     pBurnerCrafters.textContent = 'Burner Crafters Assigned: ';
     const sBurnerCrafters = document.createElement('span');
     sBurnerCrafters.textContent = craftable.burnerCrafters;
-    craftable.burnerCrafterDom = sBurnerCrafters;
+    craftable.burnerCraftersDom = sBurnerCrafters;
     pBurnerCrafters.appendChild(sBurnerCrafters);
     const subBurnerCrafters = document.createElement('button');
     subBurnerCrafters.textContent = '-';
@@ -393,6 +286,7 @@ function createCraftableCard(craftable) {
             craftable.burnerCrafters--;
             craftableList.burnerCrafter.stored++;
         //}
+        UpdateDisplay();
     });
     pBurnerCrafters.appendChild(subBurnerCrafters);
     const plusBurnerCrafters = document.createElement('button');
@@ -402,6 +296,7 @@ function createCraftableCard(craftable) {
             craftableList.burnerCrafter.stored--;
             craftable.burnerCrafters++;
         //}
+        UpdateDisplay();
     });
     pBurnerCrafters.appendChild(plusBurnerCrafters);
     card.appendChild(pBurnerCrafters);
@@ -419,6 +314,7 @@ function createCraftableCard(craftable) {
             craftable.elecCrafters--;
             craftableList.elecCrafter.stored++;
         //}
+        UpdateDisplay();
     });
     pElecCrafters.appendChild(subElecCrafters);
     const plusElecCrafters = document.createElement('button');
@@ -428,6 +324,7 @@ function createCraftableCard(craftable) {
             craftableList.elecCrafter.stored--;
             craftable.elecCrafters++;
         //}
+        UpdateDisplay();
     });
     pElecCrafters.appendChild(plusElecCrafters);
     card.appendChild(pElecCrafters);
@@ -445,6 +342,7 @@ function createCraftableCard(craftable) {
             craftable.advCrafters--;
             craftableList.advCrafter.stored++;
         //}
+        UpdateDisplay();
     });
     pAdvCrafters.appendChild(subAdvCrafters);
     const plusAdvCrafters = document.createElement('button');
@@ -454,6 +352,7 @@ function createCraftableCard(craftable) {
             craftableList.advCrafter.stored--;
             craftable.advCrafters++;
         //}
+        UpdateDisplay();
     });
     pAdvCrafters.appendChild(plusAdvCrafters);
     card.appendChild(pAdvCrafters);
@@ -485,15 +384,50 @@ function createCraftableCard(craftable) {
     pStored.appendChild(sStored);
     card.appendChild(pStored);
 
+    craftable.cardDom = card;
+}
 
+function createMineableList() {
+    Object.values(mineableList).forEach(createMineableCard);
+}
 
-    return card;
+function createSmeltableList() {
+    Object.values(smeltableList).forEach(createSmeltableCard);
+}
+
+function createCraftableList() {
+    Object.values(craftableList).forEach(createCraftableCard);
+}
+
+function appendMineableList() {
+    Object.values(mineableList).forEach((mineable) => {
+        mineableColumn.appendChild(mineable.cardDom);
+    });
+}
+
+function appendSmeltableList() {
+    Object.values(smeltableList).forEach((smeltable) => {
+        smeltableColumn.appendChild(smeltable.cardDom);
+    });
+}
+
+function appendCraftableList() {
+    Object.values(craftableList).forEach((craftable) => {
+        craftableColumn.appendChild(craftable.cardDom);
+    });
+}
+
+function CreateAndAppendCards() {
+    createMineableList();
+    createSmeltableList();
+    createCraftableList();
+    appendMineableList();
+    appendSmeltableList();
+    appendCraftableList();
 }
 
 const mineableColumn = document.querySelector('.mineables');
 const smeltableColumn = document.querySelector('.smeltables');
 const craftableColumn = document.querySelector('.craftables');
 
-mineableColumn.appendChild(createMineableCard(mineableList.coal));
-smeltableColumn.appendChild(createSmeltableCard(smeltableList.ironBar));
-craftableColumn.appendChild(createCraftableCard(craftableList.burnerMiner));
+CreateAndAppendCards();
