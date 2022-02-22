@@ -266,7 +266,7 @@ function createCraftableCard(craftable) {
         sRequired.textContent = craftable.required[i+1]
         let sRequiredAvailable = document.createElement('span');
         sRequiredAvailable.textContent = ` (${craftable.required[i].stored} Available)`;
-
+        craftable.requiredDom[i/2] = sRequiredAvailable;
         pRequired.appendChild(sRequired);
         pRequired.appendChild(sRequiredAvailable);
         divRequired.appendChild(pRequired);

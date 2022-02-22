@@ -39,7 +39,7 @@ function updateMineableListDisplay() {
 }
 
 function updateSmeltableListDisplay() {
-    Object.values(smeltableList).forEach(updateCraftableDisplay);
+    Object.values(smeltableList).forEach(updateSmeltableDisplay);
 }
 
 function updateCraftableListDisplay() {
@@ -53,7 +53,7 @@ function UpdateDisplay() {
 }
 
 function updateMineableProd(mineable) {
-    
+
 }
 
 let testBtn = document.createElement('button');
