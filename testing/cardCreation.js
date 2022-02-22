@@ -23,10 +23,10 @@ function createMineableCard(mineable) {
     subBurnerMiners.textContent = '-';
     subBurnerMiners.addEventListener('click', (event) => {
         // UNCOMMENT AFTER TESTING
-        //if(mineable.burnerMiners > 0) {
+        if(mineable.burnerMiners > 0) {
             mineable.burnerMiners--;
             craftableList.burnerMiner.stored++;
-            //}
+            }
             UpdateDisplay();
     });
     pBurnerMiners.appendChild(subBurnerMiners);
