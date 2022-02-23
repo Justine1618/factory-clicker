@@ -47,6 +47,7 @@ function UpdateDisplay() {
     updateMineableListDisplay();
     updateSmeltableListDisplay();
     updateCraftableListDisplay();
+    updateResearchListDisplay();
 }
 
 function truthList(curList) {

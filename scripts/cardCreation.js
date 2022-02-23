@@ -40,8 +40,8 @@ function createMineableCard(mineable) {
             //}
             UpdateDisplay();
     });
-    mineable.burnerMinersResearchDom = pBurnerMiners;
     pBurnerMiners.appendChild(plusBurnerMiners);
+    mineable.burnerMinersResearchDom = pBurnerMiners;
     card.appendChild(pBurnerMiners);
 
     const pElecMiners = document.createElement('p');
@@ -71,8 +71,8 @@ function createMineableCard(mineable) {
             //}
             UpdateDisplay();
     });
-    mineable.elecMinersResearchDom = pElecMiners;
     pElecMiners.appendChild(plusElecMiners);
+    mineable.elecMinersResearchDom = pElecMiners;
     card.appendChild(pElecMiners);
 
     const pBaseProdRate = document.createElement('p');
@@ -158,6 +158,7 @@ function createSmeltableCard(smeltable) {
             UpdateDisplay();
     });
     pStoneFurnaces.appendChild(plusStoneFurnaces);
+    smeltable.stoneFurnacesResearchDom = pStoneFurnaces;
     card.appendChild(pStoneFurnaces);
 
     const pSteelFurnaces = document.createElement('p');
@@ -186,6 +187,7 @@ function createSmeltableCard(smeltable) {
         UpdateDisplay();
     });
     pSteelFurnaces.appendChild(plusSteelFurnaces);
+    smeltable.steelFurnacesResearchDom = pSteelFurnaces;
     card.appendChild(pSteelFurnaces);
 
     const pElecFurnaces = document.createElement('p');
@@ -214,6 +216,8 @@ function createSmeltableCard(smeltable) {
         UpdateDisplay();
     });
     pElecFurnaces.appendChild(plusElecFurnaces);
+    smeltable.elecFurnacesResearchDom = pElecFurnaces;
+
     card.appendChild(pElecFurnaces);
 
     const pBaseProdRate = document.createElement('p');
@@ -299,6 +303,7 @@ function createCraftableCard(craftable) {
         UpdateDisplay();
     });
     pBurnerCrafters.appendChild(plusBurnerCrafters);
+    craftable.burnerCraftersResearchDom = pBurnerCrafters;
     card.appendChild(pBurnerCrafters);
 
     const pElecCrafters = document.createElement('p');
@@ -327,6 +332,7 @@ function createCraftableCard(craftable) {
         UpdateDisplay();
     });
     pElecCrafters.appendChild(plusElecCrafters);
+    craftable.elecCraftersResearchDom = pElecCrafters;
     card.appendChild(pElecCrafters);
 
     const pAdvCrafters = document.createElement('p');
@@ -355,6 +361,7 @@ function createCraftableCard(craftable) {
         UpdateDisplay();
     });
     pAdvCrafters.appendChild(plusAdvCrafters);
+    craftable.advCraftersResearchDom = pAdvCrafters;
     card.appendChild(pAdvCrafters);
 
     const pBaseProdRate = document.createElement('p');
