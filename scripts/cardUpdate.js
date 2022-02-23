@@ -150,16 +150,4 @@ function Tick() {
     UpdateDisplay();
 }
 
-let testBtn = document.createElement('button');
-document.body.appendChild(testBtn);
-testBtn.textContent = 'Update Display';
-testBtn.addEventListener('click', UpdateDisplay);
-
-
-
-let updateProdButton = document.createElement('button');
-document.body.appendChild(updateProdButton);
-updateProdButton.textContent = 'Update Production';
-updateProdButton.addEventListener('click', UpdateProd);
-
 let interval = setInterval(Tick, 1000);
