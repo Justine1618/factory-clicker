@@ -1,13 +1,17 @@
 .cardColumns {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
     padding: 0.5em;
     margin: 0.5 em;
+    width: 100vw;
 }
 
-.resourceContainter {
+.resourceContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 85vw;
     padding: 0.5em;
     margin: 0.5em;
 }
@@ -17,4 +21,13 @@
     border-radius: 1em;
     padding: 0.5em;
     margin: 0.5em;
+    width: 16em;
+
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+button {
+    padding: 0.2em;
+    margin: 0.2em;
 }
